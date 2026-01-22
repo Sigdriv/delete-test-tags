@@ -39,6 +39,6 @@ async function deleteTag() {
   }
 }
 
-export async function run() {
+export default async function run() {
   await deleteTag();
 }
