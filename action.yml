@@ -1,0 +1,11 @@
+name: Delete test tags
+description: Deletes test tags from a GitHub repository
+authors: Sigurd Drivstuen / Trondheim kommune - TIP
+runs:
+  using: node20
+  main: dist/index.js
+inputs:
+  github_token:
+    description: "GitHub token with repo scope"
+    required: true
+    default: ${{ github.token }}

@@ -1,0 +1,17 @@
+{
+  "name": "delete-test-tags",
+  "version": "1.0.0",
+  "description": "Deletes test tags for Trondheim-kommune-TIP",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "ncc build src/index.js -o dist"
+  },
+  "dependencies": {
+    "@actions/core": "^2.0.2",
+    "@actions/github": "^7.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.38.4"
+  }
+}
