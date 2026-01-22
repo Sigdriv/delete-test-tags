@@ -26,7 +26,7 @@ async function deleteTag() {
     const deletedTags = [];
 
     tags.forEach((tag) => {
-      split = tag.name.split("+");
+      const split = tag.name.split("+");
 
       if (split[1].split("-").length > 1) {
         deletedTags.push(tag.name);
@@ -39,6 +39,8 @@ async function deleteTag() {
   }
 }
 
-export default async function run() {
+export async function run() {
   await deleteTag();
 }
+
+run();

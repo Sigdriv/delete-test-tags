@@ -29535,7 +29535,7 @@ var __webpack_exports__ = {};
 "use strict";
 __nccwpck_require__.r(__webpack_exports__);
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ run)
+/* harmony export */   run: () => (/* binding */ run)
 /* harmony export */ });
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3228);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_0__);
@@ -29567,7 +29567,7 @@ async function deleteTag() {
     const deletedTags = [];
 
     tags.forEach((tag) => {
-      split = tag.name.split("+");
+      const split = tag.name.split("+");
 
       if (split[1].split("-").length > 1) {
         deletedTags.push(tag.name);
@@ -29583,6 +29583,8 @@ async function deleteTag() {
 async function run() {
   await deleteTag();
 }
+
+run();
 
 })();
 
