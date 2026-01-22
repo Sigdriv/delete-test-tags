@@ -29571,9 +29571,8 @@ async function deleteTag() {
 
       if (split[1].split("-").length > 1) {
         deletedTags.push(tag.name);
+        console.log(`Tag to be deleted: ${tag.name}`);
       }
-
-      console.log(`Tags to be deleted: ${deletedTags.length}`);
     });
   } catch (error) {
     console.error("Error deleting tag:", error);
