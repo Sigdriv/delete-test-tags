@@ -29572,8 +29572,12 @@ async function deleteTag() {
       const split = tag.name.split("+");
 
       if (!split[1]) {
-        continue;
+        if (split[0].includes("-").length === 1) {
+          continue;
+        }
       }
+
+      if (split[1].split("-").length === 1) continue;
 
       // Skip tags younger than 30 days
       const commit = await octokit.rest.repos.getCommit({
@@ -29595,10 +29599,8 @@ async function deleteTag() {
 
       if (now - commitDate < THIRTY_DAYS_MS) continue;
 
-      if (split[1].split("-").length > 1) {
-        deletedTags.push(tag.name);
-        console.log(`Tag to be deleted: ${tag.name}`);
-      }
+      deletedTags.push(tag.name);
+      console.log(`Tag to be deleted: ${tag.name}`);
     }
   } catch (error) {
     console.error("Error deleting tags:", error);
