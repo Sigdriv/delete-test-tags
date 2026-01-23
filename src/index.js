@@ -23,7 +23,7 @@ async function deleteTag() {
 
     console.log(`Found ${tags.length} tags in the repository.`);
 
-    const deletedTags = [];
+    const tagsToBeDeleted = [];
     const now = Date.now();
     const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -58,8 +58,17 @@ async function deleteTag() {
 
       if (now - commitDate < THIRTY_DAYS_MS) continue;
 
-      deletedTags.push(tag.name);
+      tagsToBeDeleted.push(tag.name);
       console.log(`Tag to be deleted: ${tag.name}`);
+    }
+
+    for (const tag of tagsToBeDeleted) {
+      await octokit.rest.git.deleteRef({
+        owner,
+        repo,
+        ref: `tags/${tag}`,
+      });
+      console.log(`Deleted tag: ${tag}`);
     }
   } catch (error) {
     console.error("Error deleting tags:", error);
@@ -67,8 +76,4 @@ async function deleteTag() {
   }
 }
 
-export async function run() {
-  await deleteTag();
-}
-
-run();
+deleteTag();

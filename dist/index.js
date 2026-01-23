@@ -29534,9 +29534,6 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 __nccwpck_require__.r(__webpack_exports__);
-/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
-/* harmony export */   run: () => (/* binding */ run)
-/* harmony export */ });
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3228);
 /* harmony import */ var _actions_github__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_github__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -29564,7 +29561,7 @@ async function deleteTag() {
 
     console.log(`Found ${tags.length} tags in the repository.`);
 
-    const deletedTags = [];
+    const tagsToBeDeleted = [];
     const now = Date.now();
     const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
@@ -29599,8 +29596,17 @@ async function deleteTag() {
 
       if (now - commitDate < THIRTY_DAYS_MS) continue;
 
-      deletedTags.push(tag.name);
+      tagsToBeDeleted.push(tag.name);
       console.log(`Tag to be deleted: ${tag.name}`);
+    }
+
+    for (const tag of tagsToBeDeleted) {
+      await octokit.rest.git.deleteRef({
+        owner,
+        repo,
+        ref: `tags/${tag}`,
+      });
+      console.log(`Deleted tag: ${tag}`);
     }
   } catch (error) {
     console.error("Error deleting tags:", error);
@@ -29608,11 +29614,7 @@ async function deleteTag() {
   }
 }
 
-async function run() {
-  await deleteTag();
-}
-
-run();
+deleteTag();
 
 })();
 
