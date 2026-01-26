@@ -9,3 +9,13 @@ inputs:
     description: "GitHub token with repo scope"
     required: true
     default: ${{ github.token }}
+  deleteDraftReleases:
+    description: "Whether to delete draft releases associated with test tags"
+    required: false
+    default: "true"
+    type: boolean
+  deletionThreshold:
+    description: "Number of days after which test tags should be deleted"
+    required: false
+    default: "30"
+    type: number
