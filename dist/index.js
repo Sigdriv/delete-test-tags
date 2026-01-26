@@ -32167,12 +32167,11 @@ __nccwpck_require__.r(__webpack_exports__);
 
 
 async function deleteTag() {
+  const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("github_token", { required: true });
+  const octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(token);
+  const { owner, repo } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo;
+
   try {
-    const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("github_token", { required: true });
-    const octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(token);
-
-    const { owner, repo } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo;
-
     const tags = await octokit.paginate(octokit.rest.repos.listTags, {
       owner,
       repo,
@@ -32252,11 +32251,7 @@ async function deleteTag() {
       return;
     }
 
-    console.log("Deleteing related draft releases");
-
-    const octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(process.env.GITHUB_TOKEN);
-
-    const { owner, repo } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo;
+    console.log("Deleting related draft releases");
 
     const releases = await octokit.paginate(octokit.rest.repos.listReleases, {
       owner,
@@ -32266,7 +32261,7 @@ async function deleteTag() {
     const draftReleases = releases.filter(({ draft }) => draft);
 
     for (const release of draftReleases) {
-      cobsole.log(`Deleting draft release: ${release.name}`);
+      console.log(`Deleting draft release: ${release.name}`);
 
       await octokit.rest.repos.deleteRelease({
         owner,

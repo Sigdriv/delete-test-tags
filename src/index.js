@@ -2,12 +2,11 @@ import { getInput } from "@actions/core";
 import { getOctokit, context } from "@actions/github";
 
 async function deleteTag() {
+  const token = getInput("github_token", { required: true });
+  const octokit = getOctokit(token);
+  const { owner, repo } = context.repo;
+
   try {
-    const token = getInput("github_token", { required: true });
-    const octokit = getOctokit(token);
-
-    const { owner, repo } = context.repo;
-
     const tags = await octokit.paginate(octokit.rest.repos.listTags, {
       owner,
       repo,
@@ -87,11 +86,7 @@ async function deleteTag() {
       return;
     }
 
-    console.log("Deleteing related draft releases");
-
-    const octokit = getOctokit(process.env.GITHUB_TOKEN);
-
-    const { owner, repo } = context.repo;
+    console.log("Deleting related draft releases");
 
     const releases = await octokit.paginate(octokit.rest.repos.listReleases, {
       owner,
@@ -101,7 +96,7 @@ async function deleteTag() {
     const draftReleases = releases.filter(({ draft }) => draft);
 
     for (const release of draftReleases) {
-      cobsole.log(`Deleting draft release: ${release.name}`);
+      console.log(`Deleting draft release: ${release.name}`);
 
       await octokit.rest.repos.deleteRelease({
         owner,
