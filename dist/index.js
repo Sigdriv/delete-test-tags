@@ -32258,10 +32258,16 @@ async function deleteTag() {
       repo,
     });
 
+    console.log(`Found ${releases.length} releases in the repository.`);
+
     const draftReleases = releases.filter(({ draft }) => draft);
 
+    console.log(`Found ${draftReleases.length} draft releases to delete.`);
+
     for (const release of draftReleases) {
-      console.log(`Deleting draft release: ${release.name}`);
+      console.log(
+        `Deleting draft release: ${release.name} (ID: ${release.id})`,
+      );
 
       await octokit.rest.repos.deleteRelease({
         owner,
